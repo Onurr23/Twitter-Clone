@@ -6,17 +6,19 @@ import Styles from "../../constants/styles";
 
 const Enterance=props=>{
 
+    const {navigation} = props;
+
     return(
         <View style={styles.screen}>
             <Image source={require('../../assets/twitter.png')} style={styles.image} />
             <View style={styles.body}>
                 <Text style={styles.main}>Şu anda dünyada olup bitenleri gör.</Text>
-                <TouchableOpacity style={styles.signup}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('Signup')}} style={styles.signup}>
                     <Text style={Styles.text}>Hesap Oluştur</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.footer}>
-                <Text style={{color : Colors.gray}}>Zaten bir hesabın var mı?</Text><TouchableOpacity><Text style={{color : Colors.light,marginLeft : 5}}>Giriş yap</Text></TouchableOpacity>
+                <Text style={{color : Colors.gray}}>Zaten bir hesabın var mı?</Text><TouchableOpacity onPress={()=>{navigation.navigate('Signin')}}><Text style={{color : Colors.light,marginLeft : 5}}>Giriş yap</Text></TouchableOpacity>
             </View>
         </View>
     )
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
     },
     signup:{
 
-        width : '95%',
+        width : '100%',
         height : 45,
         backgroundColor : Colors.light,
         borderRadius : 25,
