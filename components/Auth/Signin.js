@@ -1,7 +1,6 @@
-import React,{useState} from "react";
-import {View,Text,StyleSheet,TextInput,ScrollView,TouchableOpacity} from "react-native";
-import {Entypo} from "@expo/vector-icons";
-import Styles from "../../constants/styles";
+import { Entypo } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Colors from "../../constants/colors";
 
 const Signin=props=>{
@@ -37,7 +36,7 @@ const Signin=props=>{
                 <TouchableOpacity>
                     <Text style={styles.passwordbutton}>Şifreni Mi Unuttun ?</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>submitHandler()} disabled={email === '' && password === '' ? true : false} style={email === '' && password === '' ? styles.disabled : styles.signin}>
+                <TouchableOpacity onPress={()=>submitHandler()} disabled={email === '' || password === '' ? false : false} style={email === '' || password === '' ? styles.disabled : styles.signin}>
                     <Text style={{color : '#fff'}}>Giriş Yap</Text>
                 </TouchableOpacity>
             </View>
