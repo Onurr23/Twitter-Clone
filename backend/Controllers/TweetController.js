@@ -1,5 +1,21 @@
 const Tweet = require('../Models/Tweet');
 
+
+exports.getTweets=(req,res)=>{
+
+    Tweet.find().populate('userId','name pic',).then(tweets=>{
+
+        res.json(tweets);
+
+    }).catch(err=>{
+
+        res.json('Error:' + err);
+
+    })
+
+}
+
+
 exports.createTweet=(req,res)=>{
 
     const context = req.body.context;
