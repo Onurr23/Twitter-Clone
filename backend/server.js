@@ -14,8 +14,10 @@ mongoose.connect('mongodb+srv://onurr23:F6pTG8UpAzg2c62R@cluster0-swoaz.mongodb.
 })
 
 const userRoutes = require('./Routes/User');
+const tweetRoutes = require('./Routes/Tweet');
 
 app.use('/',userRoutes);
+app.use('/tweet',tweetRoutes);
 
 app.listen(5000,()=>{
 

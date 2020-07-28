@@ -2,9 +2,10 @@ import axios from "axios";
 
 export const signIn=(user)=>{
 
-    return (dispatch)=>{
+    return async(dispatch)=>{
 
-        axios.post('http://192.168.1.106:5000/signin',user).then(result=>{
+    
+      await axios.post('http://192.168.1.106:5000/signin',user).then(result=>{
         
         if(result.data._id){
 
