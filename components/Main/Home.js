@@ -1,35 +1,74 @@
-import React from "react";
-import {View,Text,StyleSheet,ScrollView,TouchableOpacity,Image,TextInput} from "react-native";
+import React,{useState,useEffect} from "react";
+import {View,Text,StyleSheet,ScrollView,TouchableOpacity,Image,TextInput,FlatList} from "react-native";
 import colors from "../../constants/colors";
 import {Ionicons} from "@expo/vector-icons";
+import * as tweetActions from "../../store/Actions/Tweet";
+import {useSelector,useDispatch} from "react-redux";
 
 const Home=props=>{
 
-    return(
-        <View style={styles.screen}>
-            <View style={styles.createTweet}>
-            <TextInput placeholder="What is going on ?" placeholderTextColor={colors.gray} style={styles.input} />
-            <TouchableOpacity style={styles.tweetButton}>
-                <Text style={{color :'white'}}>Tweet</Text>
-            </TouchableOpacity>
-            </View>
-            <ScrollView>
+    const [tweet, setTweet] = useState('');
+
+    const user= useSelector(state=>state.auth.user);
+    let tweets = useSelector(state=>state.tweet.tweets);
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+
+        loadTweets();
+
+    },[dispatch])
+
+    const loadTweets=async()=>{
+
+       await dispatch(tweetActions.getTweets());
+
+    }
+
+    const tweetHandler=()=>{
+
+       const newTweet = {
+
+        context : tweet,
+        userId : user._id,
+        like : 0
+
+       }
+
+       dispatch(tweetActions.createTweet(newTweet));
+    
+     
+    }
+
+    const renderTweets=({item})=>{
+
+        return(
             <TouchableOpacity style={styles.tweet}>
-            <Image source={{uri : 'https://pbs.twimg.com/profile_images/1206237605806985221/pW65Z4C9_400x400.jpg'}} style={styles.image} />
+            <Image source={{uri : item.userId.pic}} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.userInfo}>
-                <Text style={styles.name}>Ønur</Text><Text style={styles.username}>@Onurr_23</Text>
+                <Text style={styles.name}>{item.userId.name}</Text><Text style={styles.username}>@Onurr_23</Text>
                 </View>
                 <View style={styles.tweetContainer}>
-                <Text style={styles.tweetText}>Wasted times I spent with someone else
-                She wasn't even half of you
-                Reminiscin' how you felt
-                And even though you put my life through hell</Text>
+                <Text style={styles.tweetText}>{item.context}</Text>
                 </View>
                 
             </View>
             </TouchableOpacity>
-            </ScrollView>
+        )
+
+    }
+
+    return(
+        <View style={styles.screen}>
+            <View style={styles.createTweet}>
+            <TextInput placeholder="What is going on ?" placeholderTextColor={colors.gray} style={styles.input} onChangeText={text=>setTweet(text)} />
+            <TouchableOpacity style={styles.tweetButton} onPress={()=>tweetHandler()}>
+                <Text style={{color :'white'}}>Tweet</Text>
+            </TouchableOpacity>
+            </View>
+            <FlatList data={tweets} renderItem={renderTweets} />
+           
             
         </View>
     )
