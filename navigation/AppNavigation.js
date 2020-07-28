@@ -4,7 +4,6 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {Platform, Button,TouchableOpacity,Text,Image} from "react-native";
 import {Ionicons,FontAwesome,MaterialCommunityIcons} from "@expo/vector-icons";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Auth from "../components/Auth/Auth";
 import Home from "../components/Main/Home";
 import Profile from "../components/Main/Profile";
 import User from "../components/Main/User";
@@ -65,8 +64,6 @@ const HomeStack=()=>{
         </Stack.Navigator>
     )
 }
-
-
 
 const AppNavigation=props=>{
 

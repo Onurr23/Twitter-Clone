@@ -1,17 +1,46 @@
 import { Entypo } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from "react-native";
 import Colors from "../../constants/colors";
+import * as AuthActions from "../../store/Actions/Auth";
+import {useSelector,useDispatch} from "react-redux";
+import axios from "axios";
 
 const Signin=props=>{
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {navigation}=props;
-    const submitHandler=()=>{
 
-        navigation.navigate('HomePage');
+    const auth = useSelector(state=>state.auth);
+    const dispatch = useDispatch();
 
+
+
+    const submitHandler=async()=>{
+
+        let user = {
+
+            email : email,
+            password : password
+
+        }
+
+
+       dispatch(AuthActions.signIn(user));
+
+ 
+     if(auth.user._id){
+
+        navigation.navigate('HomePage')
+        
+     }else {
+
+        Alert.alert(auth.message)
+
+     }
+      
+      
     }
 
 

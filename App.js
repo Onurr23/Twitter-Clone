@@ -4,6 +4,18 @@ import { StyleSheet, Text, View } from 'react-native';
 import AppNavigation from "./navigation/AppNavigation";
 import {AppLoading} from 'expo';
 import * as Font from 'expo-font';
+import {Provider} from "react-redux";
+import {combineReducers,applyMiddleware,createStore} from "redux";
+import AuthReducer from './store/Reducers/Auth';
+import thunk from "redux-thunk";
+
+const rootReducer= combineReducers({
+
+  auth : AuthReducer 
+
+})
+
+const store = createStore(rootReducer,applyMiddleware(thunk));
 
 const fetchFonts = () =>{
 
@@ -28,7 +40,10 @@ export default function App() {
 
   }
   return (
-    <AppNavigation/>
+    <Provider store={store}>
+      <AppNavigation/>
+    </Provider>
+    
   );
 }
 

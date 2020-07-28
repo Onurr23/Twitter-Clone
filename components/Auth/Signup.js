@@ -2,6 +2,7 @@ import { Entypo } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Colors from "../../constants/colors";
+import {useSelector,useDispatch} from "react-redux";
 
 const Signup=props=>{
 
@@ -9,6 +10,9 @@ const Signup=props=>{
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [confirm, setConfirm] = useState('');
+
+    const auth = useSelector(state=>state.auth);
+    const dispatch = useDispatch();
     const {navigation}=props;
     const submitHandler=()=>{
 
