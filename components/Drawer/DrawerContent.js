@@ -5,10 +5,12 @@ import { StyleSheet, View } from 'react-native';
 import { Avatar, Caption, Drawer, Paragraph, Switch, Text, Title, TouchableRipple } from 'react-native-paper';
 import colors from '../../constants/colors';
 import { color } from 'react-native-reanimated';
+import {useSelector} from "react-redux";
 
 export function DrawerContent(props) {
 
     const {navigation} = props;
+    const user= useSelector(state=>state.auth.user);
 
   return (
     <DrawerContentScrollView {...props}>
@@ -17,12 +19,12 @@ export function DrawerContent(props) {
           <Avatar.Image
             source={{
               uri:
-                'https://pbs.twimg.com/profile_images/952545910990495744/b59hSXUd_400x400.jpg',
+                user.pic,
             }}
             size={50}
           />
-          <Title style={styles.title}>Dawid Urbaniak</Title>
-          <Caption style={styles.caption}>@trensik</Caption>
+          <Title style={styles.title}>{user.name}</Title>
+          <Caption style={styles.caption}>{"@"+user.name+"23"}</Caption>
           <View style={styles.row}>
             <View style={styles.section}>
               <Paragraph style={[styles.paragraph, styles.caption]}>

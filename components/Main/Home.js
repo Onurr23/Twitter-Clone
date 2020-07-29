@@ -43,6 +43,7 @@ const Home=props=>{
        }
 
        dispatch(tweetActions.createTweet(newTweet));
+       setTweet('');
     
      
     }
@@ -77,7 +78,7 @@ const Home=props=>{
     return(
         <View style={styles.screen}>
             <View style={styles.createTweet}>
-            <TextInput placeholder="What is going on ?" placeholderTextColor={colors.gray} style={styles.input} onChangeText={text=>setTweet(text)} />
+            <TextInput placeholder="What is going on ?" placeholderTextColor={colors.gray} value={tweet} style={styles.input} onChangeText={text=>setTweet(text)} />
             <TouchableOpacity style={styles.tweetButton} onPress={()=>tweetHandler()}>
                 <Text style={{color :'white'}}>Tweet</Text>
             </TouchableOpacity>
@@ -163,7 +164,8 @@ input : {
 
     width :'100%',
     height :'100%',
-    color :colors.light
+    color :colors.light,
+    marginLeft : 15
 
 },
 tweetButton :{
