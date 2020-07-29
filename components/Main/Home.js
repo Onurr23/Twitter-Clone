@@ -1,13 +1,15 @@
 import React,{useState,useEffect} from "react";
-import {View,Text,StyleSheet,ScrollView,TouchableOpacity,Image,TextInput,FlatList} from "react-native";
+import {View,Text,StyleSheet,ScrollView,TouchableOpacity,Image,TextInput,FlatList,ActivityIndicator} from "react-native";
 import colors from "../../constants/colors";
 import {Ionicons} from "@expo/vector-icons";
 import * as tweetActions from "../../store/Actions/Tweet";
 import {useSelector,useDispatch} from "react-redux";
+import Colors from "../../constants/colors";
 
 const Home=props=>{
 
     const [tweet, setTweet] = useState('');
+    const [loading, setloading] = useState(false)
 
     const user= useSelector(state=>state.auth.user);
     let tweets = useSelector(state=>state.tweet.tweets);
@@ -21,8 +23,9 @@ const Home=props=>{
 
     const loadTweets=async()=>{
 
+        setloading(true);
        await dispatch(tweetActions.getTweets());
-
+        setloading(false);
     }
 
     const tweetHandler=()=>{
@@ -59,6 +62,14 @@ const Home=props=>{
 
     }
 
+    if(loading){
+        return(
+            <View style={styles.centered}>
+                <ActivityIndicator size="large" color={Colors.light}/>
+            </View>
+        )
+    }
+
     return(
         <View style={styles.screen}>
             <View style={styles.createTweet}>
@@ -83,6 +94,15 @@ screen :{
     backgroundColor : colors.dark
 
 },
+centered: { 
+
+     flex: 1,
+     justifyContent: 'center',
+     alignItems: 'center',
+     backgroundColor : colors.dark
+
+    
+    },
 tweet : {
 
     width : '100%',
