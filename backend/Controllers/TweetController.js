@@ -40,7 +40,7 @@ exports.updateLike=(req,res)=>{
 
     Tweet.findById(req.params.id).then(tweet=>{
 
-        tweet.like = req.body.like;
+        tweet.like = req.body;
 
         tweet.save().then(()=>{
 

@@ -14,10 +14,10 @@ const tweetSchema = mongoose.Schema({
        
 
     },
-    like : {
-        type : Number,
-        required : true
-    }
+    like : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'User'
+    }]
 })
 
 module.exports = mongoose.model('Tweet',tweetSchema);

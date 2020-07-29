@@ -1,16 +1,18 @@
 import React,{useState,useEffect} from "react";
 import {View,Text,StyleSheet,ScrollView,TouchableOpacity,Image,TextInput,FlatList,ActivityIndicator} from "react-native";
 import colors from "../../constants/colors";
-import {Ionicons} from "@expo/vector-icons";
+import {Ionicons,EvilIcons} from "@expo/vector-icons";
 import * as tweetActions from "../../store/Actions/Tweet";
 import {useSelector,useDispatch} from "react-redux";
 import Colors from "../../constants/colors";
 
 const Home=props=>{
 
+    const {navigation} = props;
     const [tweet, setTweet] = useState('');
     const [loading, setloading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [color, setColor] = useState(Colors.gray)
 
     const user= useSelector(state=>state.auth.user);
     let tweets = useSelector(state=>state.tweet.tweets);
@@ -32,13 +34,36 @@ const Home=props=>{
         
     }
 
+    const like=(id,currentLike)=>{
+
+        if(didLike(currentLike)){
+
+            setColor(colors.gray);
+
+            let updatedLikes = currentLike.filter(c=>c !== user._id);
+
+            dispatch(tweetActions.updateTweet(id,updatedLikes));
+
+
+        }else{
+
+            setColor("#E0245E");
+            currentLike.push(user._id);
+            dispatch(tweetActions.updateTweet(id,currentLike));
+
+        }     
+
+        
+
+    }
+
     const tweetHandler=()=>{
 
        const newTweet = {
 
         context : tweet,
         userId : user._id,
-        like : 0
+        like : []
 
        }
 
@@ -48,10 +73,27 @@ const Home=props=>{
      
     }
 
+    const didLike=(currentLike)=>{
+
+        let liked = currentLike.filter(c=> c===user._id);
+
+        if(liked.length>0){
+
+            return true
+
+        }else{
+
+            return false;
+
+        }
+
+    }
+
     const renderTweets=({item})=>{
 
         return(
-            <TouchableOpacity style={styles.tweet}>
+            <TouchableOpacity style={styles.tweet} onPress={()=>{navigation.navigate('TweetDetail',{item})}}>
+            <View style={{flexDirection : 'row'}}>
             <Image source={{uri : item.userId.pic}} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.userInfo}>
@@ -60,7 +102,21 @@ const Home=props=>{
                 <View style={styles.tweetContainer}>
                 <Text style={styles.tweetText}>{item.context}</Text>
                 </View>
-                
+            </View>
+            </View>
+            <View style={styles.buttons}>
+                <TouchableOpacity onPress={()=>didLike(item.like)}>
+                <EvilIcons name="comment" size={24} color={colors.gray} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                <EvilIcons name="retweet" size={24} color={colors.gray} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.tweetButtons} onPress={()=>like(item._id,item.like)}>
+        { didLike(item.like) ? <View style={{flexDirection : 'row'}}><Ionicons name="md-heart" size={20} color="#E0245E" /><Text style={styles.like}>{item.like.length}</Text></View>:
+                    <View style={{flexDirection : 'row'}}><Ionicons name="ios-heart-empty" size={20} color={color} /><Text style={styles.like}>{item.like.length}</Text></View>  
+                    }
+               
+                </TouchableOpacity>
             </View>
             </TouchableOpacity>
         )
@@ -112,7 +168,7 @@ tweet : {
     padding : 10,
     borderBottomColor : colors.gray,
     borderBottomWidth :0.3,
-    flexDirection : 'row'
+    flexDirection : 'column'
 
 },
 image :{
@@ -177,6 +233,29 @@ tweetButton :{
     justifyContent : 'center',
     alignItems :'center',
     alignSelf :'flex-end'
+},
+buttons :{
+
+    flexDirection :'row',
+    justifyContent :'space-around'
+
+},
+tweetButtons :{
+
+    flexDirection : 'row'
+
+},
+tweetButtonText:{
+
+    color : Colors.gray,
+    marginLeft : 10
+
+},
+like :{
+    
+    marginLeft : 5,
+    color : colors.gray
+
 }
 
 })
