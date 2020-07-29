@@ -9,7 +9,8 @@ import Colors from "../../constants/colors";
 const Home=props=>{
 
     const [tweet, setTweet] = useState('');
-    const [loading, setloading] = useState(false)
+    const [loading, setloading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     const user= useSelector(state=>state.auth.user);
     let tweets = useSelector(state=>state.tweet.tweets);
@@ -17,15 +18,18 @@ const Home=props=>{
 
     useEffect(()=>{
 
+        setloading(true);
         loadTweets();
+        setloading(false);
 
     },[dispatch])
 
     const loadTweets=async()=>{
 
-        setloading(true);
+        setRefreshing(true);
        await dispatch(tweetActions.getTweets());
-        setloading(false);
+       setRefreshing(false);
+        
     }
 
     const tweetHandler=()=>{
@@ -78,9 +82,7 @@ const Home=props=>{
                 <Text style={{color :'white'}}>Tweet</Text>
             </TouchableOpacity>
             </View>
-            <FlatList data={tweets} renderItem={renderTweets} />
-           
-            
+            <FlatList data={tweets} onRefresh={loadTweets} refreshing={refreshing} renderItem={renderTweets} />
         </View>
     )
 
