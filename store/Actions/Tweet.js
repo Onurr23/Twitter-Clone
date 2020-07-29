@@ -24,8 +24,6 @@ export const createTweet=(tweet)=>{
 
     return(dispatch)=>{
 
-        console.log('DEBUG')
-
         axios.post('http://192.168.1.106:5000/tweet/create',tweet).then(()=>{
 
             dispatch({type :'TWEET_CREATED',payload : 'CREATED'})

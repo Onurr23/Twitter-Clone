@@ -14,6 +14,7 @@ import Signup from "../components/Auth/Signup";
 import Colors from "../constants/colors";
 import DrawerContent from "../components/Drawer/DrawerContent";
 import colors from "../constants/colors";
+import TweetDetail from "../components/Main/TweetDetail";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -52,6 +53,20 @@ const authHeader = ({ navigation, route }) => ({
   headerRight : ()=> <TouchableOpacity><MaterialCommunityIcons name="dots-horizontal" color={Colors.light} size={24} /></TouchableOpacity>
   })
 
+  const tweetHeader=({ navigation, route }) => ({
+    headerStyle :{
+      backgroundColor : Colors.dark,
+      shadowRadius: 0,
+      shadowOffset: {
+          height: 0,
+      },
+  },
+  headerTitle : ()=> <Text style={{color : 'white',fontSize : 18,fontFamily : 'open-sans-bold'}}>Tweet</Text>,
+  headerTitleAlign :'center',
+  headerLeft : ()=> <TouchableOpacity style={{marginLeft : 10}} onPress={()=>{navigation.goBack()}}><Ionicons name="ios-arrow-back" color={colors.light} size={24} /></TouchableOpacity>,
+ 
+  })
+
 const HomeStack=()=>{
     return(
         <Stack.Navigator>
@@ -61,6 +76,7 @@ const HomeStack=()=>{
             <Stack.Screen name="HomePage" component={Home} options={homeHeader} />
             <Stack.Screen name="Profile" component={Profile} />
             <Stack.Screen name="User" component={User} />
+            <Stack.Screen name="TweetDetail" component={TweetDetail} options={tweetHeader} />
         </Stack.Navigator>
     )
 }
