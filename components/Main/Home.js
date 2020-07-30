@@ -42,18 +42,28 @@ const Home=props=>{
 
             let updatedLikes = currentLike.filter(c=>c !== user._id);
 
-            dispatch(tweetActions.updateTweet(id,updatedLikes));
+            let obj ={
+
+                like :updatedLikes
+
+            }
+
+            dispatch(tweetActions.updateTweet(id,obj));
 
 
         }else{
 
             setColor("#E0245E");
             currentLike.push(user._id);
-            dispatch(tweetActions.updateTweet(id,currentLike));
+
+            let obj ={
+
+                like :currentLike
+
+            }
+            dispatch(tweetActions.updateTweet(id,obj));
 
         }     
-
-        
 
     }
 
@@ -63,7 +73,8 @@ const Home=props=>{
 
         context : tweet,
         userId : user._id,
-        like : []
+        like : [],
+        comments : []
 
        }
 

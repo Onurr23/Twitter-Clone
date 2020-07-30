@@ -12,12 +12,30 @@ const tweetSchema = mongoose.Schema({
         ref : 'User',
         required : true,
        
-
     },
     like : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User'
-    }]
+    }],
+    comments : [
+
+        {
+            text : {
+
+                type : String,
+                required : true,
+
+            },
+            owner:{
+
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'User'
+
+            }
+
+        }
+
+    ]
 })
 
 module.exports = mongoose.model('Tweet',tweetSchema);

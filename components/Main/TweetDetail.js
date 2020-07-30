@@ -1,12 +1,43 @@
-import React from "react";
-import {View,Text,StyleSheet,TouchableOpacity,Image} from "react-native";
+import React,{useState} from "react";
+import {useSelector,useDispatch} from "react-redux";
+import {View,Text,StyleSheet,TouchableOpacity,Image,TextInput,Keyboard, Alert,FlatList} from "react-native";
 import colors from "../../constants/colors";
-import { Colors } from "react-native-paper";
+import * as tweetActions from "../../store/Actions/Tweet";
+
 
 
 const TweetDetail=props=>{
 
     const tweet = props.route.params.item;
+    const [show, setShow] = useState(false);
+    const [comment, setComment] = useState('');
+    const dispatch = useDispatch();
+    const user = useSelector(state=>state.auth.user);
+
+    const tweetComment=()=>{
+
+
+        let comments = tweet.comments;
+
+        let newComment = {
+
+            text : comment,
+            owner : user._id
+
+        }
+
+        comments.push(newComment);
+
+        let obj ={
+
+            comments : comments
+
+        }
+        setComment('');
+        Keyboard.dismiss();
+        dispatch(tweetActions.updateTweet(tweet._id,obj));
+
+    }
 
     return(
         <View style={styles.screen}>
@@ -26,6 +57,12 @@ const TweetDetail=props=>{
                 <Text style={styles.info}>0 Retweet</Text><Text style={styles.info}>{tweet.like.length} Like</Text>
             </View>
             </TouchableOpacity>
+            <View style={styles.inputContainer}>
+            <TextInput onFocus={()=>setShow(prev=>!prev)} value={comment} onChangeText={text=>setComment(text)} onBlur={()=>setShow(prev=>!prev)}  style={styles.input} placeholder="Tweet your comment" />
+           { show ? <TouchableOpacity onPress={()=>tweetComment()} style={styles.tweetButton}><Text style={{color : 'white'}}>Tweet</Text></TouchableOpacity>  : null}
+            
+            </View>
+            <FlatList/>
         </View>
        
     )
@@ -105,7 +142,40 @@ const styles = StyleSheet.create({
         color : 'white',
         fontFamily : 'open-sans'
 
-    }
+    },
+    inputContainer:{
+
+        position : 'absolute',
+        bottom : 0,
+        padding : 10,
+        width : '100%',
+        height : 90,
+        borderTopWidth : 1,
+        borderTopColor : colors.gray
+
+
+    },
+    input:{
+
+        width : '100%',
+        height : '70%',
+        borderRadius : 25,
+        paddingHorizontal : 15,
+        color :colors.light,
+        backgroundColor : '#14171A'
+    },
+    tweetButton :{
+
+        width : '20%',
+        height : 25,
+        backgroundColor : colors.light,
+        borderRadius : 25,
+        justifyContent : 'center',
+        alignItems :'center',
+        alignSelf :'flex-end',
+        marginTop : 5,
+        marginBottom : 5
+    },
 
 
 })

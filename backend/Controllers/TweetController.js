@@ -21,8 +21,9 @@ exports.createTweet=(req,res)=>{
     const context = req.body.context;
     const userId = req.body.userId;
     const like = req.body.like;
+    const comments = req.body.comments;
 
-    const newTweet = new Tweet({context,userId,like});
+    const newTweet = new Tweet({context,userId,like,comments});
 
     newTweet.save().then(()=>{
 
@@ -36,15 +37,60 @@ exports.createTweet=(req,res)=>{
 
 }
 
+exports.updateTweet=(req,res)=>{
+
+    Tweet.findById(req.params.id).then(tweet=>{
+
+        tweet.like = req.body.like ? req.body.like : tweet.like;
+        tweet.comments = req.body.comments ? req.body.comments : tweet.comments
+
+        console.log(req.body.comments);
+
+        tweet.save().then(()=>{
+
+            res.json('Like is Updated !')
+
+        }).catch(err=>{
+
+            res.json('Error:' + err);
+
+        })
+
+    })
+
+}
+
+
 exports.updateLike=(req,res)=>{
 
     Tweet.findById(req.params.id).then(tweet=>{
 
         tweet.like = req.body;
 
+        console.log(req.body)
+
         tweet.save().then(()=>{
 
             res.json('Like is Updated !')
+
+        }).catch(err=>{
+
+            res.json('Error:' + err);
+
+        })
+
+    })
+
+}
+exports.updateComments=(req,res)=>{
+
+    Tweet.findById(req.params.id).then(tweet=>{
+
+        tweet.comments = req.body;
+
+        tweet.save().then(()=>{
+
+            res.json('Comments are Updated !')
 
         }).catch(err=>{
 

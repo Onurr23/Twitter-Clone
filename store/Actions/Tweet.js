@@ -38,12 +38,14 @@ export const createTweet=(tweet)=>{
 
 }
 
-export const updateTweet=(id,like)=>{
+export const updateTweet=(id,obj)=>{
 
+   
     return(dispatch)=>{
 
-        axios.post('http://192.168.1.106:5000/tweet/like/'+id,like).then(()=>{
-
+        axios.post('http://192.168.1.106:5000/tweet/update/'+id,obj).then(()=>{
+          
+                console.log(obj)
             dispatch({type :'TWEET_UPDATED',payload : 'UPDATED'})
 
         }).catch(err=>{

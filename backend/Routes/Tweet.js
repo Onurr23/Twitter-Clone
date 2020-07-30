@@ -9,4 +9,8 @@ route.post('/like/:id',tweetController.updateLike);
 
 route.post('/delete/:id',tweetController.deleteTweet);
 
+route.post('/comment/:id',tweetController.updateComments);
+
+route.post('/update/:id',tweetController.updateTweet);
+
 module.exports = route;
