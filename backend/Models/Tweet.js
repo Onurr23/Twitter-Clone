@@ -28,9 +28,8 @@ const tweetSchema = mongoose.Schema({
             },
             owner:{
 
-                type : mongoose.Schema.Types.ObjectId,
-                ref : 'User'
-
+                type :Object,
+                required : true
             }
 
         }

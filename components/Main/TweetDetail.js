@@ -1,8 +1,9 @@
 import React,{useState} from "react";
 import {useSelector,useDispatch} from "react-redux";
-import {View,Text,StyleSheet,TouchableOpacity,Image,TextInput,Keyboard, Alert,FlatList} from "react-native";
+import {View,Text,StyleSheet,TouchableOpacity,Image,TextInput,Keyboard, Alert,FlatList,KeyboardAvoidingView} from "react-native";
 import colors from "../../constants/colors";
 import * as tweetActions from "../../store/Actions/Tweet";
+import Tweet from "./Tweet";
 
 
 
@@ -22,7 +23,7 @@ const TweetDetail=props=>{
         let newComment = {
 
             text : comment,
-            owner : user._id
+            owner : user
 
         }
 
@@ -38,9 +39,23 @@ const TweetDetail=props=>{
         dispatch(tweetActions.updateTweet(tweet._id,obj));
 
     }
+    const renderComments=({item})=>{
+
+        let newItem={
+
+            userId : item.owner,
+            context : item.text
+
+        }
+
+        return(
+            <Tweet item={newItem} type={"comment"} />
+        )
+
+    }
 
     return(
-        <View style={styles.screen}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "height" : null} style={styles.screen}>
             <TouchableOpacity style={styles.tweet}>
             <View style={{flexDirection : 'row'}}>
             <Image source={{uri : tweet.userId.pic}} style={styles.image} />
@@ -56,14 +71,13 @@ const TweetDetail=props=>{
             <View style={styles.tweetInfo}>
                 <Text style={styles.info}>0 Retweet</Text><Text style={styles.info}>{tweet.like.length} Like</Text>
             </View>
+            <FlatList data={tweet.comments} renderItem={renderComments} />
             </TouchableOpacity>
             <View style={styles.inputContainer}>
             <TextInput onFocus={()=>setShow(prev=>!prev)} value={comment} onChangeText={text=>setComment(text)} onBlur={()=>setShow(prev=>!prev)}  style={styles.input} placeholder="Tweet your comment" />
            { show ? <TouchableOpacity onPress={()=>tweetComment()} style={styles.tweetButton}><Text style={{color : 'white'}}>Tweet</Text></TouchableOpacity>  : null}
-            
             </View>
-            <FlatList/>
-        </View>
+        </KeyboardAvoidingView>
        
     )
 }
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
     tweet : {
 
         width : '100%',
-        height : '45%',
+        height : '100%',
         flexDirection : 'column',
         backgroundColor : colors.dark,
         padding : 20
