@@ -1,7 +1,8 @@
 const initialState={
 
     tweetStatus :'',
-    tweets : []
+    tweets : [],
+    userTweets : []
 
 }
 
@@ -22,7 +23,14 @@ export const tweetReducer=(state=initialState,action)=>{
             tweets : action.payload
         }
 
-    } else{
+    } else if(action.type === 'USERTWEETS_LOADED'){
+
+        return{
+            ...state,
+            userTweets : action.payload
+        }
+
+    }else{
 
         return state;
 

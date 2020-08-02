@@ -6,7 +6,7 @@ export const getTweets=()=>{
 
        
       await axios.get('http://192.168.1.106:5000/tweet').then((tweets)=>{
-
+            
             dispatch({type :'TWEETS_LOADED',payload : tweets.data});
 
         }).catch(err=>{
@@ -45,7 +45,6 @@ export const updateTweet=(id,obj)=>{
 
         axios.post('http://192.168.1.106:5000/tweet/update/'+id,obj).then(()=>{
           
-                console.log(obj)
             dispatch({type :'TWEET_UPDATED',payload : 'UPDATED'})
 
         }).catch(err=>{
@@ -76,4 +75,23 @@ export const deleteTweet=(id)=>{
 
 }
 
-export default {createTweet,updateTweet,deleteTweet,getTweets};
+export const getUserTweets=(id)=>{
+
+    
+    return async(dispatch)=>{
+       
+      await axios.get('http://192.168.1.106:5000/tweet/user/'+id).then((result)=>{
+            
+            dispatch({type :'USERTWEETS_LOADED',payload : result.data});
+           
+        }).catch(err=>{
+
+            dispatch({type : 'TWEET_FAILED',payload : err})
+
+        })
+
+    }
+
+}
+
+export default {createTweet,updateTweet,deleteTweet,getTweets,getUserTweets};

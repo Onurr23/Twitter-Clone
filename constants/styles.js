@@ -5,13 +5,6 @@ export default{
         color : '#fff',
         fontFamily : 'open-sans-bold'
 
-    },
-
-    screen:{
-
-        flex : 1,
-        backgroundColor : colors.dark
-
     }
 
 }

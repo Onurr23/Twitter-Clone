@@ -1,7 +1,7 @@
 import React, { Profiler } from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
-import {Platform, Button,TouchableOpacity,Text,Image} from "react-native";
+import {Platform, Button,TouchableOpacity,Text,Image, View} from "react-native";
 import {Ionicons,FontAwesome,MaterialCommunityIcons} from "@expo/vector-icons";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from "../components/Main/Home";
@@ -67,6 +67,8 @@ const authHeader = ({ navigation, route }) => ({
  
   })
 
+  
+
 const HomeStack=()=>{
     return(
         <Stack.Navigator>
@@ -74,7 +76,7 @@ const HomeStack=()=>{
             <Stack.Screen name="Signin" component={Signin} options={authHeader} />
             <Stack.Screen name="Signup" component={Signup} options={authHeader} />
             <Stack.Screen name="HomePage" component={Home} options={homeHeader} />
-            <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="Profile" component={Profile} options={dontShowHeader} />
             <Stack.Screen name="User" component={User} />
             <Stack.Screen name="TweetDetail" component={TweetDetail} options={tweetHeader} />
         </Stack.Navigator>

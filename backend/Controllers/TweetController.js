@@ -3,7 +3,7 @@ const Tweet = require('../Models/Tweet');
 
 exports.getTweets=(req,res)=>{
 
-    Tweet.find().populate('userId','name pic',).then(tweets=>{
+    Tweet.find().populate('userId','name pic').then(tweets=>{
 
         res.json(tweets);
 
@@ -112,6 +112,20 @@ exports.deleteTweet=(req,res)=>{
 
         res.json('Error:' + err);
 
+    })
+
+}
+
+exports.getUserTweets=(req,res)=>{
+
+    Tweet.find({userId : req.params.id}).populate('userId','name pic').then(tweets=>{
+
+        res.json(tweets);
+
+    }).catch(err=>{
+
+        res.json(err);
+    
     })
 
 }

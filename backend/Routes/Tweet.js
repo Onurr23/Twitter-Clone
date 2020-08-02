@@ -13,4 +13,6 @@ route.post('/comment/:id',tweetController.updateComments);
 
 route.post('/update/:id',tweetController.updateTweet);
 
+route.get('/user/:id',tweetController.getUserTweets);
+
 module.exports = route;

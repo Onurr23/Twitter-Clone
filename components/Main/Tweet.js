@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import {View,Text,StyleSheet,TouchableOpacity,Image} from "react-native";
 import {useSelector,useDispatch} from "react-redux";
 import colors from "../../constants/colors";
@@ -7,12 +7,18 @@ import {Ionicons,EvilIcons} from "@expo/vector-icons";
 
 const Tweet=props=>{
 
-    
     const user= useSelector(state=>state.auth.user);
     let tweets = useSelector(state=>state.tweet.tweets);
     const dispatch = useDispatch();
     const [color, setColor] = useState(colors.gray);
     const {navigation,item,type} = props;
+
+
+    useEffect(()=>{
+
+        //console.log(item)
+
+    },[props])
 
     const like=(id,currentLike)=>{
 
@@ -60,24 +66,25 @@ const Tweet=props=>{
             return false;
 
         }
-
     }
 
     return(
         <TouchableOpacity style={styles.tweet} onPress={()=>{ navigation ? navigation.navigate('TweetDetail',{item}) : null }}>
         <View style={{flexDirection : 'row'}}>
-        <Image source={{uri : item.userId.pic}} style={styles.image} />
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile',{id : item.userId._id})}}>
+            <Image source={{uri : item.userId.pic}} style={styles.image} />
+            </TouchableOpacity>
         <View style={styles.textContainer}>
-            <View style={styles.userInfo}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile',{id : item.userId._id})}} style={styles.userInfo}>
             <Text style={styles.name}>{item.userId.name}</Text><Text style={styles.username}>@Onurr_23</Text>
-            </View>
+            </TouchableOpacity>
             <View style={styles.tweetContainer}>
             <Text style={styles.tweetText}>{item.context}</Text>
             </View>
         </View>
         </View>
         {type !=='comment' ?   <View style={styles.buttons}>
-            <TouchableOpacity style={styles.tweetButtons} onPress={()=>didLike(item.like)}>
+            <TouchableOpacity style={styles.tweetButtons} onPress={()=>navigation.navigate('TweetDetail',{item})}>
             <EvilIcons name="comment" size={24} color={colors.gray} />
             <Text style={styles.like}>{item.comments.length}</Text>
             </TouchableOpacity>

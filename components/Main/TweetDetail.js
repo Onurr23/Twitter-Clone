@@ -14,6 +14,7 @@ const TweetDetail=props=>{
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
     const user = useSelector(state=>state.auth.user);
+    const {navigation} = props;
 
     const tweetComment=()=>{
 
@@ -41,15 +42,18 @@ const TweetDetail=props=>{
     }
     const renderComments=({item})=>{
 
+        console.log(item)
+
         let newItem={
 
             userId : item.owner,
-            context : item.text
+            context : item.text,
+            comments : item
 
         }
 
         return(
-            <Tweet item={newItem} type={"comment"} />
+            <Tweet item={newItem} type={"comment"} navigation={navigation} />
         )
 
     }
@@ -77,6 +81,7 @@ const TweetDetail=props=>{
             <TextInput onFocus={()=>setShow(prev=>!prev)} value={comment} onChangeText={text=>setComment(text)} onBlur={()=>setShow(prev=>!prev)}  style={styles.input} placeholder="Tweet your comment" />
            { show ? <TouchableOpacity onPress={()=>tweetComment()} style={styles.tweetButton}><Text style={{color : 'white'}}>Tweet</Text></TouchableOpacity>  : null}
             </View>
+            <View style={{height: 560}} />
         </KeyboardAvoidingView>
        
     )
@@ -104,11 +109,6 @@ const styles = StyleSheet.create({
         width : 75,
         height:75,
         borderRadius : 50
-    },
-    userInfo:{
-
-        flexDirection : 'row',
-        marginLeft : 15
     },
     userInfo:{
 
