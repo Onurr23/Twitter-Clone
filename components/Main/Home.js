@@ -16,7 +16,8 @@ const Home=props=>{
     const [color, setColor] = useState(Colors.gray)
 
     const user= useSelector(state=>state.auth.user);
-    let tweets = useSelector(state=>state.tweet.tweets);
+    let tweets =useSelector(state=>state.tweet.tweets);
+
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -29,9 +30,10 @@ const Home=props=>{
 
     const loadTweets=async()=>{
 
-        setRefreshing(true);
+       setRefreshing(true);
        await dispatch(tweetActions.getTweets());
        setRefreshing(false);
+       
         
     }
 

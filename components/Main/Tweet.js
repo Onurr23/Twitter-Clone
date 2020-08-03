@@ -14,12 +14,6 @@ const Tweet=props=>{
     const {navigation,item,type} = props;
 
 
-    useEffect(()=>{
-
-        //console.log(item)
-
-    },[props])
-
     const like=(id,currentLike)=>{
 
         if(didLike(currentLike)){

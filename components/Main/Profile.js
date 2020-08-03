@@ -30,6 +30,7 @@ const Profile=props=>{
         setRefresh(true);
         await dispatch(tweetActions.getUserTweets(id));
         setRefresh(false);
+        console.log(tweets)
         
 
     }
