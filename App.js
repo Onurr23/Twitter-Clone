@@ -9,11 +9,14 @@ import {combineReducers,applyMiddleware,createStore} from "redux";
 import AuthReducer from './store/Reducers/Auth';
 import thunk from "redux-thunk";
 import tweetReducer from './store/Reducers/Tweet';
+import userReducer from './store/Reducers/User';
+
 
 const rootReducer= combineReducers({
 
   auth : AuthReducer,
-  tweet : tweetReducer
+  tweet : tweetReducer,
+  user  : userReducer
 
 })
 

@@ -6,11 +6,12 @@ import { Avatar, Caption, Drawer, Paragraph, Switch, Text, Title, TouchableRippl
 import colors from '../../constants/colors';
 import { color } from 'react-native-reanimated';
 import {useSelector} from "react-redux";
+import { useNavigation } from '@react-navigation/native';
 
 export function DrawerContent(props) {
 
-    const {navigation} = props;
-    const user= useSelector(state=>state.auth.user);
+   
+    const user = useSelector(state=>state.auth.user);
 
   return (
     <DrawerContentScrollView {...props}>

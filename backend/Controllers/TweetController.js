@@ -3,7 +3,7 @@ const Tweet = require('../Models/Tweet');
 
 exports.getTweets=(req,res)=>{
 
-    Tweet.find().populate('userId','name pic').then(tweets=>{
+    Tweet.find().populate('userId').populate('tweets').then(tweets=>{
 
         res.json(tweets);
 
@@ -25,9 +25,9 @@ exports.createTweet=(req,res)=>{
 
     const newTweet = new Tweet({context,userId,like,comments});
 
-    newTweet.save().then(()=>{
+    newTweet.save().then((tweet)=>{
 
-        res.json('Tweet is Saved !')
+        res.json(tweet);
 
     }).catch(err=>{
 
@@ -44,7 +44,7 @@ exports.updateTweet=(req,res)=>{
         tweet.like = req.body.like ? req.body.like : tweet.like;
         tweet.comments = req.body.comments ? req.body.comments : tweet.comments
 
-        console.log(req.body.comments);
+        
 
         tweet.save().then(()=>{
 
@@ -66,8 +66,6 @@ exports.updateLike=(req,res)=>{
     Tweet.findById(req.params.id).then(tweet=>{
 
         tweet.like = req.body;
-
-        console.log(req.body)
 
         tweet.save().then(()=>{
 

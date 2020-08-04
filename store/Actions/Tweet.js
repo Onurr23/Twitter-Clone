@@ -20,13 +20,19 @@ export const getTweets=()=>{
 }
 
 
-export const createTweet=(tweet)=>{
+export const createTweet=(tweet,user)=>{
 
     return(dispatch)=>{
 
-        axios.post('http://192.168.1.106:5000/tweet/create',tweet).then(()=>{
+        axios.post('http://192.168.1.106:5000/tweet/create',tweet).then((result)=>{
 
-            dispatch({type :'TWEET_CREATED',payload : 'CREATED'})
+        user.tweets.push(result.data._id);
+
+            axios.post('http://192.168.1.106:5000/user/'+user._id,user.tweets).then(()=>{
+
+                dispatch({type :'TWEET_CREATED',payload : 'CREATED'})
+                
+            })
 
         }).catch(err=>{
 

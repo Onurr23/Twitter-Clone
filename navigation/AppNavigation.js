@@ -1,12 +1,11 @@
 import React, { Profiler } from "react";
-import {NavigationContainer} from "@react-navigation/native";
+import {NavigationContainer,useNavigation} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import {Platform, Button,TouchableOpacity,Text,Image, View} from "react-native";
 import {Ionicons,FontAwesome,MaterialCommunityIcons} from "@expo/vector-icons";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from "../components/Main/Home";
 import Profile from "../components/Main/Profile";
-import User from "../components/Main/User";
 import Messages from "../components/Main/Messages";
 import Enterance from "../components/Main/Enterance";
 import Signin from "../components/Auth/Signin";
@@ -18,6 +17,7 @@ import TweetDetail from "../components/Main/TweetDetail";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
 
 const dontShowHeader=({
 
@@ -67,8 +67,6 @@ const authHeader = ({ navigation, route }) => ({
  
   })
 
-  
-
 const HomeStack=()=>{
     return(
         <Stack.Navigator>
@@ -77,7 +75,6 @@ const HomeStack=()=>{
             <Stack.Screen name="Signup" component={Signup} options={authHeader} />
             <Stack.Screen name="HomePage" component={Home} options={homeHeader} />
             <Stack.Screen name="Profile" component={Profile} options={dontShowHeader} />
-            <Stack.Screen name="User" component={User} />
             <Stack.Screen name="TweetDetail" component={TweetDetail} options={tweetHeader} />
         </Stack.Navigator>
     )
@@ -85,11 +82,13 @@ const HomeStack=()=>{
 
 const AppNavigation=props=>{
 
+
     return(
         <NavigationContainer>
         <Drawer.Navigator drawerStyle={{backgroundColor : colors.dark}} drawerContent={() =>  <DrawerContent/> } >
             <Drawer.Screen name="Home" component={HomeStack}/>
-            <Drawer.Screen name="Messages" component={Messages} />
+            <Drawer.Screen name="Profile" component={Profile} />
+
         </Drawer.Navigator>
         </NavigationContainer>
     )

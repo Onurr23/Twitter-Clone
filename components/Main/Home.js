@@ -13,7 +13,8 @@ const Home=props=>{
     const [tweet, setTweet] = useState('');
     const [loading, setloading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-    const [color, setColor] = useState(Colors.gray)
+    const [color, setColor] = useState(Colors.gray);
+    const [timeline, setTimeline] = useState([]);
 
     const user= useSelector(state=>state.auth.user);
     let tweets =useSelector(state=>state.tweet.tweets);
@@ -31,9 +32,33 @@ const Home=props=>{
     const loadTweets=async()=>{
 
        setRefreshing(true);
-       await dispatch(tweetActions.getTweets());
+       await dispatch(tweetActions.getTweets(user.following));
        setRefreshing(false);
        
+    //    let newTweets = [];
+    //    let followings = user.following;
+
+    //   tweets.map(tweet=>(
+
+    //     followings.filter(following=>{
+
+    //         if(following === tweet.userId._id){
+
+    //             newTweets.push(tweet);
+
+    //         }else if(following === user._id){
+
+    //             newTweets.push(tweet);
+
+    //         }
+
+    // })
+
+    //   ))
+
+
+    // await setTimeline(newTweets);
+      
         
     }
 
@@ -48,8 +73,9 @@ const Home=props=>{
 
        }
 
-       dispatch(tweetActions.createTweet(newTweet));
+       dispatch(tweetActions.createTweet(newTweet,user));
        setTweet('');
+       loadTweets();
     
     }
 

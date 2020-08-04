@@ -7,6 +7,9 @@ exports.createUser=(req,res)=>{
     const pic = req.body.pic;
     const email = req.body.email;
     const password = req.body.password;
+    const followers = req.body.followers;
+    const following = req.body.following;
+    const tweets = req.body.tweets;
 
     if(name === "" && pic === "" && email === "" && password === "")  {
 
@@ -26,9 +29,9 @@ exports.createUser=(req,res)=>{
 
     }).then((hashedPassword)=>{
 
-        const newUser = new User({name,pic,email,password :hashedPassword});
+        const newUser = new User({name,pic,email,password :hashedPassword,followers,following,tweets});
 
-        newUser.save().then((user)=>{
+        newUser.save().populate('tweets').then((user)=>{
 
             res.status(200).json(user)
     
@@ -47,7 +50,7 @@ exports.signUserIn=(req,res)=>{
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({email : email}).then(user=>{
+    User.findOne({email : email}).populate('tweets').then(user=>{
 
         if(!user){
 
@@ -82,15 +85,75 @@ exports.signUserIn=(req,res)=>{
 
 }
 
-exports.getUsers=(req,res)=>{
+exports.getUser=(req,res)=>{
 
-    User.find().then(users=>{
+    User.findById(req.params.id).populate('tweets').populate('userId').then(user=>{
 
-        res.json(users)
+        res.json(user);
 
     }).catch(err=>{
 
         res.json('Error :'+err);
+
+    })
+
+}
+
+exports.updateUser=(req,res)=>{
+
+    User.findById(req.params.id).then(user=>{
+
+        user.following = req.body;
+        
+        user.save().then(()=>{
+
+            res.json('Updated !')
+
+        }).catch(err=>{
+
+            res.json(err);
+
+        })
+
+    })
+
+}
+
+exports.updateProfile=(req,res)=>{
+
+    User.findById(req.params.id).then(user=>{
+
+        user.followers = req.body;
+        
+        user.save().then(()=>{
+
+            res.json('Updated !')
+
+        }).catch(err=>{
+
+            res.json(err);
+
+        })
+
+    })
+
+}
+
+exports.updateUserTweets=(req,res)=>{
+
+    User.findById(req.params.id).then(user=>{
+
+        user.tweets = req.body;
+        
+        user.save().then(()=>{
+
+            res.json('Updated !')
+
+        }).catch(err=>{
+
+            res.json(err);
+
+        })
 
     })
 

@@ -6,7 +6,13 @@ route.post('/signup',userController.createUser);
 
 route.post('/signin',userController.signUserIn);
 
-route.get('/',userController.getUsers);
+route.post('/:id',userController.updateUser);
+
+route.get('/user/:id',userController.getUser);
+
+route.post('/otheruser/:id',userController.updateProfile);
+
+route.post('/user/:id',userController.updateUserTweets);
 
 
 module.exports = route;

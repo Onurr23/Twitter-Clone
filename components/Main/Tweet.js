@@ -13,7 +13,6 @@ const Tweet=props=>{
     const [color, setColor] = useState(colors.gray);
     const {navigation,item,type} = props;
 
-
     const like=(id,currentLike)=>{
 
         if(didLike(currentLike)){
@@ -65,11 +64,11 @@ const Tweet=props=>{
     return(
         <TouchableOpacity style={styles.tweet} onPress={()=>{ navigation ? navigation.navigate('TweetDetail',{item}) : null }}>
         <View style={{flexDirection : 'row'}}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile',{id : item.userId._id})}}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile',{user : item.userId})}}>
             <Image source={{uri : item.userId.pic}} style={styles.image} />
             </TouchableOpacity>
         <View style={styles.textContainer}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile',{id : item.userId._id})}} style={styles.userInfo}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile',{user : item.userId})}} style={styles.userInfo}>
             <Text style={styles.name}>{item.userId.name}</Text><Text style={styles.username}>@Onurr_23</Text>
             </TouchableOpacity>
             <View style={styles.tweetContainer}>
